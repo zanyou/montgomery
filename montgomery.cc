@@ -7,7 +7,7 @@ void mmpz_rshift(mpz_t t, mp_size_t n) {
     i = mpz_size(t);
     p = mpz_limbs_modify(t, i);
     mpn_rshift(p, p, i, n);
-    mpz_limb_finish(t, i);
+    mpz_limbs_finish(t, i);
 }
 
 void mmpz_lshift(mpz_t t, mp_size_t n) {
@@ -17,7 +17,7 @@ void mmpz_lshift(mpz_t t, mp_size_t n) {
     i = mpz_size(t);
     p = mpz_limbs_modify(t, i);
     mpn_lshift(p, p, i, n);
-    mpz_limb_finish(t, i);
+    mpz_limbs_finish(t, i);
 }
 
 class Montgomery {
