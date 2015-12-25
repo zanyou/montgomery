@@ -98,12 +98,13 @@ Montgomery::Montgomery(mpz_t N) {
     mpz_set(n, N);
     // bit length of n
     nb = mpz_sizeinbase(n, 2);
+    cout << "nb: \t" << nb << endl;
 
     // r = 2^nb > n
     mpz_t r;
     mpz_init_set_ui(r, 1);
     mpz_init(nbitmask);
-    mpz_mul_2exp(r, r, nb);
+    mpz_mul_2exp(r, r, nb+1);
     mpz_sub_ui(nbitmask, r, 1);
 
     // r2 = r^2 mod n
@@ -115,14 +116,38 @@ Montgomery::Montgomery(mpz_t N) {
     mpz_init_set_ui(t, 0);
     mpz_init_set_ui(vi, 1);
     int ni = nb;
+
     while (ni--) {
         if (mpz_tstbit(t, 0) == 0) { // last bit of t is 0?
+            cout << "before t: \t";
+            mpz_out_str(stdout, BASE, t);
+            cout << endl;
+
             mpz_add(t, t, n);
             mpz_add(n2, n2, vi);
+
+            cout << "after t: \t";
+            mpz_out_str(stdout, BASE, t);
+            cout << endl;
         }
-        mmpz_rshift(t, 1);
-        mmpz_lshift(vi , 1);
+        //mmpz_rshift(t, 1);
+        //mmpz_lshift(vi , 1);
+        mpz_fdiv_q_ui(t, t, 2);
+        mpz_mul_ui(vi, vi, 2);
+        cout << "end t: \t";
+        mpz_out_str(stdout, BASE, t);
+        cout << endl;
     }
+
+    cout << "r2: \t";
+    mpz_out_str(stdout, BASE, r2);
+    cout << "\nr: \t";
+    mpz_out_str(stdout, BASE, r);
+    cout << "\nn2: \t";
+    mpz_out_str(stdout, BASE, n2);
+    cout << "\nn: \t";
+    mpz_out_str(stdout, BASE, n);
+    cout << endl;
 }
 
 int main(void) {
@@ -131,9 +156,9 @@ int main(void) {
     gmp_randinit_default(rand);
     mpz_inits(n, a, b, tmp, NULL);
 
-    mpz_set_si(n, 234);
-    mpz_set_si(a, 11);
-    mpz_set_si(b, 18);
+    mpz_set_si(n, 9);
+    mpz_set_si(a, 2);
+    mpz_set_si(b, 3);
 
 
 /*
