@@ -1,0 +1,5 @@
+project(Montgomery CXX)
+
+set(CMAKE_CXX_FLAGS "-I/usr/local/include/ -L/usr/local/lib/ -lgmp -lgmpxx")
+
+add_executable(myapp montgomery.cc)

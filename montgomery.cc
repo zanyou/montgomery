@@ -45,6 +45,7 @@ void Montgomery::toMongomery(mpz_t result, mpz_t a) {
 
     // t = a * r^2
     mpz_mul(t, a, r2);
+    mpz_and(t, t, nbitmask);
 
     reduction(am, t);
 
@@ -98,7 +99,6 @@ Montgomery::Montgomery(mpz_t N) {
     mpz_set(n, N);
     // bit length of n
     nb = mpz_sizeinbase(n, 2);
-    cout << "nb: \t" << nb << endl;
 
     // r = 2^nb > n
     mpz_t r;
@@ -147,6 +147,8 @@ Montgomery::Montgomery(mpz_t N) {
     mpz_out_str(stdout, BASE, n2);
     cout << "\nn: \t";
     mpz_out_str(stdout, BASE, n);
+    cout << "\nnbitmask: \t";
+    mpz_out_str(stdout, BASE, nbitmask);
     cout << endl;
 }
 
@@ -156,9 +158,9 @@ int main(void) {
     gmp_randinit_default(rand);
     mpz_inits(n, a, b, tmp, NULL);
 
-    mpz_set_si(n, 9);
-    mpz_set_si(a, 2);
-    mpz_set_si(b, 3);
+    mpz_set_si(n, 254);
+    mpz_set_si(a, 32);
+    mpz_set_si(b, 17);
 
 
 /*
